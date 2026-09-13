@@ -1,0 +1,145 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum BatchStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum DocumentType {
+  CC_TRADICIONAL
+  CC_DIGITAL
+  TI
+  CONTRASENA
+}
+
+enum CompletitudStatus {
+  COMPLETO
+  INCOMPLETA
+}
+
+enum ValidationStatus {
+  EXISTE
+  NO_EXISTE
+  DISCREPANCIA
+}
+
+model User {
+  id                     String    @id @default(uuid())
+  email                  String    @unique
+  passwordHash           String
+  role                   Role      @default(USER)
+  isActive               Boolean   @default(true)
+  requiresPasswordChange Boolean   @default(false)
+  failedAttempts         Int       @default(0)
+  lockedUntil            DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  batches            ProcessingBatch[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model RegistrationRequest {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  status       RequestStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  reviewedAt   DateTime?
+  reviewedBy   String?
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProcessingBatch {
+  id             String      @id @default(uuid())
+  userId         String
+  pdfFilename    String
+  excelFilename  String
+  status         BatchStatus @default(QUEUED)
+  totalPages     Int         @default(0)
+  processedPages Int         @default(0)
+  errorMessage   String?
+  createdAt      DateTime    @default(now())
+  completedAt    DateTime?
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents ExtractedDocument[]
+  excelRows ExcelRecord[]
+}
+
+model ExtractedDocument {
+  id                   String            @id @default(uuid())
+  batchId              String
+  numeroDocumento      String            // Normalizado, sin puntos ni espacios
+  tipoDocumento        DocumentType
+  nombres              String?
+  apellidos            String?
+  nombreCompleto       String?
+  fechaNacimiento      String?
+  lugarNacimiento      String?
+  sexo                 String?
+  grupoSanguineo       String?
+  fechaExpedicion      String?
+  lugarExpedicion      String?
+  estatura             String?           // Opcional: solo CC
+  fechaVencimiento     String?           // Opcional: solo TI y CC digital
+  lugarPreparacion     String?           // Opcional: solo Contraseña
+  oficinaEntrega       String?           // Opcional: solo Contraseña
+  fotoUrl              String?           // Cloudinary URL
+  tieneFrente          Boolean           @default(false)
+  tieneReverso         Boolean           @default(false)
+  estadoCompletitud    CompletitudStatus @default(COMPLETO)
+  estadoValidacion     ValidationStatus  @default(NO_EXISTE)
+  detalleDiscrepancias Json?
+  createdAt            DateTime          @default(now())
+
+  batch ProcessingBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@index([batchId])
+  @@index([numeroDocumento])
+}
+
+model ExcelRecord {
+  id                     String   @id @default(uuid())
+  batchId                String
+  identificacionOriginal String
+  identificacionLimpia   String   // Normalizado, sin CC/TI ni puntos
+  nombreOficial          String
+  estadoOficial          String
+  createdAt              DateTime @default(now())
+
+  batch ProcessingBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@index([batchId])
+  @@index([identificacionLimpia])
+}

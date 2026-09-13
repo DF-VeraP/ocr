@@ -1,0 +1,96 @@
+services:
+  # 1. Servicio Frontend (Vite + React + Nginx Proxy Inverso)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sena-ocr-frontend
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:80"
+    depends_on:
+      - backend
+    networks:
+      - sena-network
+
+  # 2. Servicio Backend (Node.js + PaddleOCR + Prisma + BullMQ)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sena-ocr-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - CLIENT_URL=${CLIENT_URL:-http://localhost}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-ocr_cedulas}?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - JWT_SECRET=${JWT_SECRET:-sena_super_secret_jwt_access_token_key_2026}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-sena_super_secret_jwt_refresh_token_key_2026}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-15m}
+      - JWT_REFRESH_EXPIRES_IN=${JWT_REFRESH_EXPIRES_IN:-7d}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@sena.edu.co}
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sena-network
+
+  # 3. Base de Datos PostgreSQL 16
+  postgres:
+    image: postgres:16-alpine
+    container_name: sena-ocr-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-ocr_cedulas}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-ocr_cedulas}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sena-network
+
+  # 4. Cola de Mensajería Redis 7 (BullMQ)
+  redis:
+    image: redis:7-alpine
+    container_name: sena-ocr-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sena-network
+
+volumes:
+  postgres_data:
+    name: sena_ocr_postgres_data
+  redis_data:
+    name: sena_ocr_redis_data
+  uploads_data:
+    name: sena_ocr_uploads_data
+
+networks:
+  sena-network:
+    name: sena_ocr_network
+    driver: bridge

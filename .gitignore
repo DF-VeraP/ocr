@@ -1,0 +1,45 @@
+# Dependencias
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Archivos de compilación
+dist/
+backend/dist/
+frontend/dist/
+
+# Variables de entorno y secretos locales (NUNCA subir a Git)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+!.env.example
+!.env.production.example
+!backend/.env.example
+
+# Logs de depuración
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.system_generated/
+
+# Archivos temporales y de subida de pruebas
+uploads/
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.png
+*.jpg
+*.jpeg
+
+# Scripts de prueba y análisis temporales
+scratch_*.txt
+test_*.ts
+bench_*.ts
+inspect_*.ts
+extract_*.ts
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

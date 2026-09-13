@@ -1,0 +1,193 @@
+# Documento de Requisitos — Sistema de Extracción y Validación de Cédulas
+
+## Convenciones
+
+### Prioridad
+- **Alta** → Imprescindible para el MVP. Sin esto el sistema no funciona.
+- **Media** → Importante, pero puede ir en una segunda iteración.
+- **Baja** → Deseable, se puede posponer.
+
+> **Consecutivo global:** `RF-001`, `RF-002`, ... (no se reinicia al cambiar de módulo).
+
+---
+
+## Requisitos Funcionales
+
+### 1. Módulo de Autenticación y Solicitudes
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-001** | El sistema debe permitir a un visitante crear una solicitud de registro ingresando únicamente correo electrónico y contraseña. | **Alta** |
+| **RF-002** | El sistema debe validar que el correo electrónico sea único en la base de datos antes de crear una solicitud. | **Alta** |
+| **RF-003** | El sistema debe validar que la contraseña cumpla: mínimo 1 mayúscula, mínimo 4 números y mínimo 1 símbolo. | **Alta** |
+| **RF-004** | El sistema debe almacenar las contraseñas hasheadas con bcrypt. | **Alta** |
+| **RF-005** | Al crear una solicitud, esta debe quedar en estado "pendiente". | **Alta** |
+| **RF-006** | El sistema debe limitar a 3 solicitudes por correo cada 4 horas. | **Alta** |
+| **RF-007** | El sistema debe notificar por correo al administrador cada vez que se cree una nueva solicitud. | **Alta** |
+| **RF-008** | El administrador debe poder ver en un panel las solicitudes pendientes. | **Alta** |
+| **RF-009** | El administrador debe poder aceptar una solicitud. | **Alta** |
+| **RF-010** | Al aceptar una solicitud, el sistema debe generar una contraseña temporal aleatoria. | **Alta** |
+| **RF-011** | Al aceptar una solicitud, el sistema debe enviar un correo al solicitante con su contraseña temporal. | **Alta** |
+| **RF-012** | El administrador debe poder rechazar una solicitud. | **Alta** |
+| **RF-013** | Al rechazar una solicitud, el sistema no debe enviar ningún correo al solicitante. | **Alta** |
+| **RF-014** | El sistema debe permitir al usuario iniciar sesión con correo y contraseña. | **Alta** |
+| **RF-015** | El sistema debe forzar el cambio de contraseña en el primer inicio de sesión. | **Alta** |
+| **RF-016** | El sistema debe bloquear la cuenta tras 3 intentos fallidos de inicio de sesión. | **Alta** |
+| **RF-017** | El bloqueo por intentos fallidos debe durar 30 minutos. | **Alta** |
+| **RF-018** | El sistema debe permitir al usuario restablecer su contraseña vía email con un token de expiración de 30 minutos. | **Alta** |
+| **RF-019** | Al restablecer la contraseña, el contador de intentos fallidos debe reiniciarse. | **Alta** |
+| **RF-020** | El sistema debe manejar sesiones con JWT y refresh token. | **Alta** |
+| **RF-021** | El sistema debe permitir la opción "Recordarme" en el login. | **Media** |
+| **RF-022** | El usuario autenticado debe poder cerrar sesión. | **Alta** |
+| **RF-023** | El sistema debe permitir al usuario autenticado cambiar su contraseña. | **Media** |
+
+---
+
+### 2. Módulo de Carga de Archivos
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-024** | El sistema debe permitir al usuario autenticado subir un archivo PDF con las cédulas escaneadas. | **Alta** |
+| **RF-025** | El sistema debe permitir al usuario autenticado subir un archivo Excel (.xlsx) con la lista de validación. | **Alta** |
+| **RF-026** | El sistema debe validar que el PDF esté en formato válido antes de procesarlo. | **Alta** |
+| **RF-027** | El sistema debe validar que el Excel tenga las columnas: `Identificación`, `Nombre`, `Estado`. | **Alta** |
+| **RF-028** | El sistema debe permitir subir ambos archivos (PDF y Excel) en una misma operación. | **Alta** |
+| **RF-029** | El sistema debe crear un registro de "lote de procesamiento" por cada carga. | **Alta** |
+| **RF-030** | El sistema debe encolar el procesamiento en segundo plano (BullMQ + Redis). | **Alta** |
+| **RF-031** | El sistema debe responder inmediatamente al usuario indicando que el procesamiento está en curso. | **Alta** |
+
+---
+
+### 3. Módulo de OCR y Extracción
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-032** | El sistema debe convertir cada página del PDF a imagen de alta resolución. | **Alta** |
+| **RF-033** | El sistema debe preprocesar las imágenes (escala de grises, binarización, reducción de ruido, corrección de inclinación). | **Alta** |
+| **RF-034** | El sistema debe aplicar OCR con Tesseract a cada imagen. | **Alta** |
+| **RF-035** | El sistema debe detectar automáticamente el tipo de documento: CC tradicional, CC digital, TI o Contraseña. | **Alta** |
+| **RF-036** | El sistema debe extraer el número de documento del frente con regex (ej: `NUMERO`, `NUIP`). | **Alta** |
+| **RF-037** | El sistema debe extraer el número de documento del reverso desde el código de barras o MRZ. | **Alta** |
+| **RF-038** | El sistema debe extraer los campos: nombres y apellidos, fecha de nacimiento, lugar de nacimiento, sexo, grupo sanguíneo, fecha de expedición y lugar de expedición. | **Alta** |
+| **RF-039** | El sistema debe extraer la estatura cuando el documento sea CC tradicional o digital. | **Alta** |
+| **RF-040** | El sistema debe extraer la fecha de vencimiento cuando el documento sea TI. | **Alta** |
+| **RF-041** | El sistema debe extraer lugar de preparación y oficina de entrega cuando el documento sea Contraseña. | **Alta** |
+| **RF-042** | El sistema debe identificar y asociar las páginas (frente y reverso) pertenecientes a cada cédula en el PDF del lote. | **Alta** |
+| **RF-043** | El sistema debe emparejar frente y reverso por número de documento. | **Alta** |
+| **RF-044** | El sistema debe marcar como "incompleta" toda cédula a la que le falte frente o reverso. | **Alta** |
+| **RF-045** | El sistema debe normalizar el número de documento (quitar puntos y espacios). | **Alta** |
+| **RF-046** | El sistema debe almacenar los datos extraídos en PostgreSQL. | **Alta** |
+| **RF-047** | El sistema debe eliminar los archivos temporales (PDF e imágenes) al finalizar el procesamiento. | **Alta** |
+
+---
+
+### 4. Módulo de Segmentación y Generación de PDF Individual por Documento
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-048** | El sistema debe segmentar el PDF del lote y generar un archivo PDF individual exclusivo con la cédula de cada persona (ej: solo el documento de Daniel Felipe). | **Alta** |
+| **RF-049** | El sistema debe nombrar el PDF individual generado con el número de documento limpio de la persona (ej: `10006.pdf`). | **Alta** |
+| **RF-050** | El sistema debe almacenar el PDF individual generado en el almacenamiento local seguro del servidor (queda totalmente descartado Cloudinary). | **Alta** |
+| **RF-051** | El sistema debe sobrescribir el PDF individual si se vuelve a procesar el mismo documento en el lote. | **Alta** |
+| **RF-052** | El sistema debe guardar la ruta o referencia del PDF individual en la base de datos PostgreSQL. | **Alta** |
+
+---
+
+### 5. Módulo de Validación con Excel
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-053** | El sistema debe leer el Excel y extraer las columnas `Identificación`, `Nombre` y `Estado`. | **Alta** |
+| **RF-054** | El sistema debe limpiar el prefijo "CC - " o "TI - " del campo `Identificación`. | **Alta** |
+| **RF-055** | El sistema debe comparar el número de documento extraído del OCR contra los números del Excel. | **Alta** |
+| **RF-056** | El sistema debe marcar como "existe" toda cédula cuyo número esté en el Excel. | **Alta** |
+| **RF-057** | El sistema debe marcar como "no existe" toda cédula cuyo número no esté en el Excel. | **Alta** |
+| **RF-058** | El sistema debe comparar el nombre extraído del OCR contra el nombre del Excel para el mismo número. | **Alta** |
+| **RF-059** | El sistema debe marcar "discrepancia" cuando el número exista pero el nombre no coincida. | **Alta** |
+| **RF-060** | El sistema debe generar automáticamente el reporte al finalizar el procesamiento. | **Alta** |
+| **RF-061** | El reporte debe mostrar únicamente las cédulas que existen en el Excel. | **Alta** |
+| **RF-062** | El reporte debe incluir: documento, nombre, estado y campos con discrepancia. | **Alta** |
+| **RF-063** | El reporte debe poder exportarse a PDF. | **Media** |
+| **RF-064** | El reporte debe poder exportarse a Excel. | **Media** |
+
+---
+
+### 6. Módulo de Panel y Visualización
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-065** | El usuario autenticado debe ver una barra de progreso en tiempo real durante el procesamiento. | **Alta** |
+| **RF-066** | El sistema debe notificar en el panel cuando el procesamiento haya terminado. | **Alta** |
+| **RF-067** | El sistema debe mostrar la tabla de personas procesadas (ej: `10006 - Daniel Felipe`) con sus datos y estado de validación. | **Alta** |
+| **RF-068** | El sistema debe permitir hacer clic en la fila de una persona (ej: fila `10006 Daniel Felipe`) para ver toda su información extraída junto con el visor de su PDF propio (el PDF exclusivo con su cédula). | **Alta** |
+| **RF-069** | El sistema debe permitir filtrar la lista por tipo de documento (CC, TI, Contraseña). | **Media** |
+| **RF-070** | El sistema debe permitir filtrar la lista por estado de validación (existe, no existe, discrepancia, incompleta). | **Media** |
+| **RF-071** | El sistema debe permitir buscar por número de documento o nombre. | **Media** |
+| **RF-072** | El administrador debe ver un panel con las solicitudes pendientes. | **Alta** |
+| **RF-073** | El administrador debe ver en el panel las solicitudes ya aceptadas o rechazadas. | **Media** |
+
+---
+
+### 7. Módulo de Administración
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-074** | El sistema debe tener un usuario administrador creado manualmente en la base de datos. | **Alta** |
+| **RF-075** | El administrador debe poder aceptar solicitudes de registro. | **Alta** |
+| **RF-076** | El administrador debe poder rechazar solicitudes de registro. | **Alta** |
+| **RF-077** | El administrador debe poder ver el listado de usuarios activos. | **Media** |
+| **RF-078** | El administrador debe poder desactivar usuarios. | **Baja** |
+
+---
+
+### 8. Módulo de Notificaciones
+
+| ID | Descripción | Prioridad |
+| :--- | :--- | :---: |
+| **RF-079** | El sistema debe enviar correo al admin por cada nueva solicitud de registro. | **Alta** |
+| **RF-080** | El sistema debe enviar correo al solicitante con su contraseña temporal cuando el admin acepte. | **Alta** |
+| **RF-081** | El sistema debe enviar correo con enlace de restablecimiento de contraseña (token 30 min). | **Alta** |
+| **RF-082** | El sistema **NO** debe enviar correo al solicitante cuando el admin rechace. | **Alta** |
+| **RF-083** | El sistema **NO** debe enviar correo cuando termine el procesamiento (solo notificación en panel). | **Alta** |
+
+---
+
+## Requisitos No Funcionales
+
+| ID | Descripción | Categoría | Prioridad |
+| :--- | :--- | :--- | :---: |
+| **RNF-001** | El sistema debe estar desarrollado con Node.js + Express en el backend. | Tecnología | **Alta** |
+| **RNF-002** | El sistema debe estar desarrollado con React + Vite en el frontend. | Tecnología | **Alta** |
+| **RNF-003** | El sistema debe usar PostgreSQL como base de datos. | Tecnología | **Alta** |
+| **RNF-004** | El sistema debe usar Prisma como ORM con migraciones automáticas. | Tecnología | **Alta** |
+| **RNF-005** | El sistema debe usar Redis + BullMQ para la cola de procesamiento. | Tecnología | **Alta** |
+| **RNF-006** | El sistema debe usar Tesseract como motor OCR. | Tecnología | **Alta** |
+| **RNF-007** | El sistema debe usar OpenCV para preprocesamiento de imágenes y detección de rostros. | Tecnología | **Alta** |
+| **RNF-008** | El sistema debe almacenar y servir los archivos PDF individuales desde el almacenamiento local del servidor (sin depender de servicios externos como Cloudinary). | Tecnología / Arquitectura | **Alta** |
+| **RNF-009** | El sistema debe usar Nodemailer para el envío de correos. | Tecnología | **Alta** |
+| **RNF-010** | El sistema debe usar TailwindCSS para estilos. | Tecnología | **Alta** |
+| **RNF-011** | El sistema debe usar React Query para manejo de datos del servidor. | Tecnología | **Alta** |
+| **RNF-012** | El sistema debe usar Zustand para manejo de estado global. | Tecnología | **Alta** |
+| **RNF-013** | El frontend y el backend deben estar en proyectos separados. | Arquitectura | **Alta** |
+| **RNF-014** | El backend debe seguir una arquitectura por capas (`controllers`, `services`, `repositories`, `models`). | Arquitectura | **Alta** |
+| **RNF-015** | El sistema debe ser responsive (adaptable a móvil, tablet y escritorio). | Usabilidad | **Alta** |
+| **RNF-016** | El sistema debe estar completamente en español. | Usabilidad | **Alta** |
+| **RNF-017** | El sistema debe soportar modo oscuro. | Usabilidad | **Media** |
+| **RNF-018** | El sistema debe procesar hasta 1000 cédulas diarias sin degradación significativa. | Rendimiento | **Alta** |
+| **RNF-019** | El procesamiento de un PDF de 1000 páginas no debe bloquear la interfaz del usuario. | Rendimiento | **Alta** |
+| **RNF-020** | El sistema debe mostrar el progreso en tiempo real durante el procesamiento. | Rendimiento | **Alta** |
+| **RNF-021** | Las contraseñas deben almacenarse hasheadas con bcrypt (nunca en texto plano). | Seguridad | **Alta** |
+| **RNF-022** | Las sesiones deben manejarse con JWT y refresh token. | Seguridad | **Alta** |
+| **RNF-023** | El sistema debe implementar rate limiting en endpoints sensibles (login, registro, reset). | Seguridad | **Alta** |
+| **RNF-024** | El sistema debe usar HTTPS con certificado SSL (Let's Encrypt). | Seguridad | **Alta** |
+| **RNF-025** | Los archivos temporales (PDF e imágenes) deben eliminarse al finalizar el procesamiento. | Seguridad | **Alta** |
+| **RNF-026** | El sistema debe validar y sanitizar todas las entradas del usuario. | Seguridad | **Alta** |
+| **RNF-027** | El sistema debe estar desplegado en un VPS con Dokploy. | Despliegue | **Alta** |
+| **RNF-028** | El sistema debe usar variables de entorno para credenciales y secretos. | Despliegue | **Alta** |
+| **RNF-029** | El sistema debe manejar errores de forma centralizada y devolver respuestas claras. | Mantenibilidad | **Media** |
+| **RNF-030** | El código debe seguir convenciones de nombres y estructura de carpetas definidas. | Mantenibilidad | **Media** |
+| **RNF-031** | El sistema debe registrar logs básicos de errores (sin auditoría de acciones). | Mantenibilidad | **Media** |
+| **RNF-032** | El sistema no debe guardar histórico de cargas ni auditoría de acciones. | Alcance | **Alta** |
+| **RNF-033** | El sistema no debe manejar roles ni permisos diferenciados (solo admin y usuario). | Alcance | **Alta** |
+| **RNF-034** | El sistema solo debe aceptar archivos PDF para cédulas y XLSX para Excel. | Alcance | **Alta** |
+| **RNF-035** | El sistema no debe imponer límite de tamaño de archivo por el momento. | Alcance | **Media** |

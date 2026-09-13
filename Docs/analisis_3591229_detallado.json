@@ -1,0 +1,531 @@
+{
+  "excelList": [
+    {
+      "id": "17655933",
+      "orig": "CC - 17655933",
+      "name": "ALDEMAR CHAVARRO MONTIEL",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117491401",
+      "orig": "CC - 1117491401",
+      "name": "CARLOS ARLES SILVA VEGA",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1119216535",
+      "orig": "CC - 1119216535",
+      "name": "DIANA CAROLINA RAMIREZ LIZCANO",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "17638872",
+      "orig": "CC - 17638872",
+      "name": "ECTOR PINEDA RIVERA",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "17649786",
+      "orig": "CC - 17649786",
+      "name": "FERNANDO TAPIERO LEYTON",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "96341502",
+      "orig": "CC - 96341502",
+      "name": "GILBERTO DIAZ CAMPOS",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117502246",
+      "orig": "CC - 1117502246",
+      "name": "HERMELINDA TAPIERO LEYTON",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1006513804",
+      "orig": "CC - 1006513804",
+      "name": "JHOINER ANDRES AMBITO CHAVARRO",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "16190609",
+      "orig": "CC - 16190609",
+      "name": "JORGE ELIECER DEVIA CABEZAS",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117504107",
+      "orig": "CC - 1117504107",
+      "name": "JOSE NIDIO PERDOMO MONTIEL",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1119582444",
+      "orig": "CC - 1119582444",
+      "name": "KELLY TATIANA RENZA RODRIGUEZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1118071031",
+      "orig": "CC - 1118071031",
+      "name": "LEIDY YURITZA SANTOS MANRIQUE",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "40076292",
+      "orig": "CC - 40076292",
+      "name": "LIBRADA RAMIREZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "17689664",
+      "orig": "CC - 17689664",
+      "name": "LLIMI ANDRES HOME GONZALEZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "83232810",
+      "orig": "CC - 83232810",
+      "name": "LUIS EDUARDO TAMAYO BENAVIDEZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1055830844",
+      "orig": "CC - 1055830844",
+      "name": "MATILDE MANRIQUE CALDERON",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117490775",
+      "orig": "CC - 1117490775",
+      "name": "NORMA CONSTANZA TAPIERO ROJAS",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117553879",
+      "orig": "CC - 1117553879",
+      "name": "PATRICIA TAPIERO ROJAS",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1080933480",
+      "orig": "CC - 1080933480",
+      "name": "SANDRA MILENA GUEVARA OROZCO",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117489405",
+      "orig": "CC - 1117489405",
+      "name": "SANDRA MILENA RAMIREZ SALAMANCA",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117530272",
+      "orig": "CC - 1117530272",
+      "name": "YEFERSON RAMIREZ SALAMANCA",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117523518",
+      "orig": "CC - 1117523518",
+      "name": "YEINSON FERNEY ZUÑIGA RODRIGUEZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "40595316",
+      "orig": "CC - 40595316",
+      "name": "YOHANA MANRIQUE GUTIERREZ",
+      "status": "Preinscrito"
+    },
+    {
+      "id": "1117266928",
+      "orig": "CC - 1117266928",
+      "name": "YURI ALEJANDRA GOMEZ MEDINA",
+      "status": "Preinscrito"
+    }
+  ],
+  "ocrResults": [
+    {
+      "idx": 0,
+      "page": 1,
+      "w": 1238,
+      "h": 1646,
+      "docNum": "118071031",
+      "normDocNum": "118071031",
+      "type": "CC_DIGITAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "LEIDY YURITZA",
+      "apellidos": "SANTOS MANRIQUE",
+      "nombreCompleto": "LEIDY YURITZA SANTOS MANRIQUE",
+      "birth": "21-SEP-2005",
+      "rawSnippet": "REPUBLICA DE COLOMBIA NUIP118.071.031 SANTOSMANRIQUE LEIDY.YURITZA COL. 157 21SEPT2005B+ VALPARAISO("
+    },
+    {
+      "idx": 1,
+      "page": 2,
+      "w": 1240,
+      "h": 1641,
+      "normDocNum": null,
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "UBLICA",
+      "apellidos": "MANRIQUE CALDERON",
+      "nombreCompleto": "UBLICA MANRIQUE CALDERON",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACIONPERSONAL CEDULA DE CIUDADANIA NUMERO. 1.055:830.844 MANRIQUE.CAL"
+    },
+    {
+      "idx": 2,
+      "page": 3,
+      "w": 1240,
+      "h": 1604,
+      "docNum": "489405",
+      "normDocNum": "489405",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": true,
+      "apellidos": "RAMIREZ SALAMANCA",
+      "nombreCompleto": "RAMIREZ SALAMANCA",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACIONPEHSONAL CEDULADECUDADA 1A117.489.405 RAMIREZ SALAMANCA APELLIDO"
+    },
+    {
+      "idx": 3,
+      "page": 4,
+      "w": 1240,
+      "h": 1618,
+      "docNum": "504107",
+      "normDocNum": "504107",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APELLDOS",
+      "apellidos": "PERDOMO MONMIEL",
+      "nombreCompleto": "APELLDOS PERDOMO MONMIEL",
+      "birth": "19-DIC-2006",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULA DE CIUDADANIA JMERO 1117.504.107 PERDOMO MONMIE"
+    },
+    {
+      "idx": 4,
+      "page": 5,
+      "w": 1240,
+      "h": 1645,
+      "docNum": "080933",
+      "normDocNum": "080933",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APELLTCOS",
+      "apellidos": "GUEVARA OROZCO",
+      "nombreCompleto": "APELLTCOS GUEVARA OROZCO",
+      "birth": "19-JUN-1982",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULADEUA wEo1.080.933.48G GUEVARA OROZCO APELLTCOS S"
+    },
+    {
+      "idx": 5,
+      "page": 6,
+      "w": 1240,
+      "h": 1609,
+      "docNum": "553879",
+      "normDocNum": "553879",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APELLinoS",
+      "apellidos": "TAPIERO ROJAS",
+      "nombreCompleto": "APELLinoS TAPIERO ROJAS",
+      "rawSnippet": "REPUBLICA DE COLOMBLA IDENTIFICACION PERSONAL CEDULADECIUOADANIAPB CA o1117.553.879 TAPIERO ROJAS AP"
+    },
+    {
+      "idx": 6,
+      "page": 7,
+      "w": 1240,
+      "h": 1640,
+      "docNum": "655933",
+      "normDocNum": "655933",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "apellidos": "CHAVARRO MONTIEL",
+      "nombreCompleto": "CHAVARRO MONTIEL",
+      "birth": "31-MAR-1977",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULA DE CIUDADANIA NUMER17.655.933 CHAVARRO MONTIEL "
+    },
+    {
+      "idx": 7,
+      "page": 8,
+      "w": 1240,
+      "h": 1624,
+      "docNum": "17638872",
+      "normDocNum": "17638872",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APELLUDOS",
+      "apellidos": "PINEDA RIVERA",
+      "nombreCompleto": "APELLUDOS PINEDA RIVERA",
+      "rawSnippet": "REPUBLIEADECOLOMBI IDENTIPICACIONPERSO CEDULA DECIUDADA 17.638.872 PINEDA RIVERA APELLUDOS ECTOR QUE"
+    },
+    {
+      "idx": 8,
+      "page": 9,
+      "w": 1240,
+      "h": 1625,
+      "normDocNum": null,
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "ERMELINDA",
+      "apellidos": "TAPIERO LEYTON",
+      "nombreCompleto": "ERMELINDA TAPIERO LEYTON",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEOULADECIUDADANICAD 1117.502.246SUM5BIA TAPIERO LEYTO"
+    },
+    {
+      "idx": 9,
+      "page": 10,
+      "w": 1240,
+      "h": 1632,
+      "docNum": "582444",
+      "normDocNum": "582444",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "UELICT",
+      "apellidos": "CEDULADECIUDADA",
+      "nombreCompleto": "UELICT CEDULADECIUDADA",
+      "rawSnippet": "REPUBLICA DE COLOME IDENTIFICACIONPERSON UELICT CEDULADECIUDADA po1119.582.444 RENZA RODRIGUEZ KELLY"
+    },
+    {
+      "idx": 10,
+      "page": 11,
+      "w": 1237,
+      "h": 1646,
+      "docNum": "23281001",
+      "normDocNum": "23281001",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "UIS EDUARDO",
+      "apellidos": "TAMAYO BENAVIDEZ",
+      "nombreCompleto": "UIS EDUARDO TAMAYO BENAVIDEZ",
+      "rawSnippet": "REPUBLICA DE COLOMBIA DENTIFICACION PERSONAL CEDULA DE CIUDADANIA WEAO83.232.81001 TAMAYO.BENAVIDEZ "
+    },
+    {
+      "idx": 11,
+      "page": 12,
+      "w": 1240,
+      "h": 1645,
+      "normDocNum": null,
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "MANDRESO",
+      "apellidos": "LLIDOS",
+      "nombreCompleto": "MANDRESO LLIDOS",
+      "birth": "05-DIC-1983",
+      "rawSnippet": "REPUBLICA DE COLOMBLA IDENMIFICACION PERSONAL CEDULADE CIUDADANIA UMER 17689664 LLIDOS MANDRESO5 HAO"
+    },
+    {
+      "idx": 12,
+      "page": 13,
+      "w": 1240,
+      "h": 1623,
+      "docNum": "1119216535",
+      "normDocNum": "1119216535",
+      "type": "CC_DIGITAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "DIANA CAROLIN",
+      "apellidos": "RAMIREZ LIZCANO",
+      "nombreCompleto": "DIANA CAROLIN RAMIREZ LIZCANO",
+      "birth": "10-DIC-2007",
+      "rawSnippet": "CEOULADE REPUBLICA DE COLOMBIA NUIP 1.119.Z16.535 RAMREZ LIZCANO DIANA CAROLINA COL 10DIC2007 MONTAR"
+    },
+    {
+      "idx": 13,
+      "page": 14,
+      "w": 1240,
+      "h": 1645,
+      "docNum": "1117530272",
+      "normDocNum": "1117530272",
+      "type": "CC_DIGITAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "YEFERSON",
+      "apellidos": "RAMIREZ SALAMANCA",
+      "nombreCompleto": "YEFERSON RAMIREZ SALAMANCA",
+      "birth": "23-ENE-1994",
+      "rawSnippet": "CUULADAE REPUBLICA DE COLOMBIA NUIP 1.117.530.272 RAMIREZSALAMANCA YEFERSON COL 162 23ENE1994 FLOREN"
+    },
+    {
+      "idx": 14,
+      "page": 15,
+      "w": 1240,
+      "h": 1622,
+      "docNum": "40076292",
+      "normDocNum": "40076292",
+      "type": "CC_DIGITAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "LIBRADA",
+      "apellidos": "RAMIREZ",
+      "nombreCompleto": "LIBRADA RAMIREZ",
+      "birth": "24-MAY-1974",
+      "rawSnippet": "CEOULADE REPUBLICA DE COLOMBIA CUUABAHA NUIP 40.076.292 RAMIREZ LIBRADA COL 1.97 AYO107A Red Liegr d"
+    },
+    {
+      "idx": 15,
+      "page": 16,
+      "w": 1239,
+      "h": 1646,
+      "docNum": "1006513804",
+      "normDocNum": "1006513804",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "NTULDO",
+      "apellidos": "AMBITO CHAVARRO",
+      "nombreCompleto": "NTULDO AMBITO CHAVARRO",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULADECIUCANANA #)1.006.513.804 AMBITO CHAVARRO NTUL"
+    },
+    {
+      "idx": 16,
+      "page": 17,
+      "w": 1240,
+      "h": 1636,
+      "docNum": "649786",
+      "normDocNum": "649786",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "LIDbS",
+      "apellidos": "TAPIERO LEYTON",
+      "nombreCompleto": "LIDbS TAPIERO LEYTON",
+      "rawSnippet": "REPUBLICA DE COLOMBLA IDENTIFICACION PERSONAL CEDULA DE GIUDADANIA ERO17.649.786 TAPIERO LEYTON LIDb"
+    },
+    {
+      "idx": 17,
+      "page": 18,
+      "w": 1240,
+      "h": 1607,
+      "normDocNum": null,
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "YOHANAE",
+      "apellidos": "MANRIQUE GUTIERRET",
+      "nombreCompleto": "YOHANAE MANRIQUE GUTIERRET",
+      "birth": "08-SEP-1979",
+      "rawSnippet": "REPUBLICA DE COLOMBLA IDENTIFICACION PERSONAL CEDULADE CUDADANIA wo40.595:316 MANRIQUE GUTIERRET YOH"
+    },
+    {
+      "idx": 18,
+      "page": 19,
+      "w": 1240,
+      "h": 1639,
+      "docNum": "1117490775",
+      "normDocNum": "1117490775",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "NORMA CONSTANZA",
+      "apellidos": "TAPIERO ROJAS",
+      "nombreCompleto": "NORMA CONSTANZA TAPIERO ROJAS",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULA DECIUDADANIA MBo-1.117.490.775 TAPIERO ROJAS NO"
+    },
+    {
+      "idx": 19,
+      "page": 20,
+      "w": 1240,
+      "h": 1643,
+      "docNum": "1117491401",
+      "normDocNum": "1117491401",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APELLOS",
+      "apellidos": "SILVAVEGA",
+      "nombreCompleto": "APELLOS SILVAVEGA",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL GEQOLADGCIUDADANIA VCRo.1.117.491.401 SILVAVEGA APELLO"
+    },
+    {
+      "idx": 20,
+      "page": 21,
+      "w": 1240,
+      "h": 1641,
+      "docNum": "499735",
+      "normDocNum": "499735",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "APEUWDD",
+      "apellidos": "DEVIA VAQUIRO",
+      "nombreCompleto": "APEUWDD DEVIA VAQUIRO",
+      "birth": "18-ABR-1988",
+      "rawSnippet": "REPUBLICA DE COLOMBLA IDENTIFICACION PERSQNAL CEDULADECIUDADANIAOA O-1117,499.735 DEVIA VAQUIRO APEU"
+    },
+    {
+      "idx": 21,
+      "page": 22,
+      "w": 1240,
+      "h": 1642,
+      "docNum": "1117523518",
+      "normDocNum": "1117523518",
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "YEINSON FERNEY",
+      "apellidos": "ZUNIGA RODRIGUEZ",
+      "nombreCompleto": "YEINSON FERNEY ZUNIGA RODRIGUEZ",
+      "birth": "16-ENE-1992",
+      "rawSnippet": "UBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULADZ CIUDADANIA 1.117.523.518 ZUNIGA RODRIGUEZ YEINSO"
+    },
+    {
+      "idx": 22,
+      "page": 23,
+      "w": 1240,
+      "h": 1642,
+      "normDocNum": null,
+      "type": "CC_TRADICIONAL",
+      "isFront": true,
+      "isBack": false,
+      "nombres": "JORGE ELIECER",
+      "apellidos": "DEVIA CABEZAS",
+      "nombreCompleto": "JORGE ELIECER DEVIA CABEZAS",
+      "birth": "05-OCT-1979",
+      "rawSnippet": "REPUBLICA DE COLOMBIA IDENTIFICACION PERSONAL CEDULADECIUDADANA 16190609 DEVIA CABEZAS JORGE ELIECER"
+    },
+    {
+      "idx": 23,
+      "page": 24,
+      "w": 1238,
+      "h": 1646,
+      "docNum": "96341502",
+      "normDocNum": "96341502",
+      "type": "CC_DIGITAL",
+      "isFront": true,
+      "isBack": true,
+      "nombres": "GILBERTO",
+      "apellidos": "DIAZ CAMPOS",
+      "nombreCompleto": "GILBERTO DIAZ CAMPOS",
+      "birth": "25-ENE-1969",
+      "rawSnippet": "CUDULADE REPUBLICA DE COLOMBIA DAZCAMP NUIP 96.341.502 CILBERTO COL 1.0 SM 25ENE1969 MONTARITACAUETA"
+    },
+    {
+      "idx": 24,
+      "page": 25,
+      "w": 1240,
+      "h": 1628,
+      "docNum": "1117266928",
+      "normDocNum": "1117266928",
+      "type": "CC_TRADICIONAL",
+      "isFront": false,
+      "isBack": true,
+      "apellidos": "GOMEZMEDINA",
+      "nombreCompleto": "GOMEZMEDINA",
+      "birth": "16-ABR-1996",
+      "rawSnippet": "UERO1117266.928 90 80511 GOMEZMEDINA APELLIDOS RE URI ALEJANDRA RES UELALEJANQRA GOMEZM FECHADENACIM"
+    }
+  ]
+}
