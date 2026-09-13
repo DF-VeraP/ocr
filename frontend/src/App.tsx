@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
 import { useThemeStore } from './stores/themeStore';
 import { useInactivityTimeout } from './hooks/useInactivityTimeout';
@@ -107,6 +107,64 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; requireAdmin?: boole
   return <>{children}</>;
 };
 
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+
+  return (
+    <div className={`min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col font-['Outfit',sans-serif] ${isLoginPage ? 'h-screen overflow-hidden' : ''}`}>
+      <Navbar />
+
+      <main className={`flex-1 ${isLoginPage ? 'overflow-hidden flex flex-col justify-center' : ''}`}>
+        <Routes>
+          {/* Rutas Públicas */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/solicitar-registro" element={<RegisterRequest />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* Rutas Protegidas */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fichas"
+            element={
+              <ProtectedRoute>
+                <FichasHistory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/solicitudes"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminRequests />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Redirección por defecto */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
+      {!isLoginPage && (
+        <footer className="py-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
+          <div className="max-w-7xl mx-auto px-4">
+            Servicio Nacional de Aprendizaje SENA • Sistema de Extracción y Validación OCR de Cédulas
+          </div>
+        </footer>
+      )}
+    </div>
+  );
+};
+
 export const App: React.FC = () => {
   const { initTheme } = useThemeStore();
 
@@ -117,54 +175,7 @@ export const App: React.FC = () => {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <SessionMonitor />
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col font-['Outfit',sans-serif]">
-        <Navbar />
-
-        <main className="flex-1">
-          <Routes>
-            {/* Rutas Públicas */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/solicitar-registro" element={<RegisterRequest />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-
-            {/* Rutas Protegidas */}
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/fichas"
-              element={
-                <ProtectedRoute>
-                  <FichasHistory />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/solicitudes"
-              element={
-                <ProtectedRoute requireAdmin>
-                  <AdminRequests />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Redirección por defecto */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-
-        <footer className="py-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
-          <div className="max-w-7xl mx-auto px-4">
-            Servicio Nacional de Aprendizaje SENA • Sistema de Extracción y Validación OCR de Cédulas
-          </div>
-        </footer>
-      </div>
+      <AppContent />
     </BrowserRouter>
   );
 };
