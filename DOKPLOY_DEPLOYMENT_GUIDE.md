@@ -47,7 +47,7 @@ graph TD
 ### Paso 2: Conectar el Repositorio Git
 1. En la pestaña **General** del servicio Compose:
    - **Source Type:** Selecciona **GitHub** (o Git Repository).
-   - **Repository:** Selecciona el repositorio de este proyecto (ej: `tu-usuario/sena-ocr`).
+   - **Repository:** Selecciona el repositorio de este proyecto (`DF-VeraP/ocr`).
    - **Branch:** `main` (o la rama donde tengas el código).
    - **Compose Path:** `./docker-compose.yml`
 
@@ -76,16 +76,11 @@ JWT_REFRESH_EXPIRES_IN=7d
 # Administrador inicial
 ADMIN_EMAIL=admin@sena.edu.co
 
-# Notificaciones por Correo (Opcional - Gmail SMTP)
+# Notificaciones por Correo (Gmail SMTP)
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=notificaciones.sena@gmail.com
-SMTP_PASS=tu_app_password
-
-# Cloudinary (Opcional si usas almacenamiento externo de fotos)
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+SMTP_USER=tu_correo@gmail.com
+SMTP_PASS=tu_app_password_de_16_caracteres
 ```
 3. Haz clic en **Save**.
 
