@@ -40,6 +40,20 @@ bench_*.ts
 inspect_*.ts
 extract_*.ts
 
+# Archivos de datos de prueba, cédulas y planillas confidenciales (Habeas Data / Privacidad)
+*.pdf
+*.xls
+*.xlsx
+*.csv
+Docs/*.pdf
+Docs/*.xls
+Docs/*.xlsx
+Docs/reporte_*.txt
+Docs/analisis_*.json
+!Docs/Documentacion/**
+!Docs/modulos/**
+!Docs/README.md
+
 # Archivos del sistema operativo
 .DS_Store
 Thumbs.db
