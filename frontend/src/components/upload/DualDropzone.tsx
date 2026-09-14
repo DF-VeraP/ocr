@@ -1,16 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FileText, FileSpreadsheet, Upload, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { api } from '../../api/client';
 
 interface DualDropzoneProps {
   onBatchStarted: (batchId: string) => void;
+  resetTrigger?: number | string;
 }
 
-export const DualDropzone: React.FC<DualDropzoneProps> = ({ onBatchStarted }) => {
+export const DualDropzone: React.FC<DualDropzoneProps> = ({ onBatchStarted, resetTrigger }) => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  const excelInputRef = useRef<HTMLInputElement>(null);
+
+  // Función para resetear inputs tanto de estado como de elementos DOM nativos
+  const resetInputs = () => {
+    setPdfFile(null);
+    setExcelFile(null);
+    if (pdfInputRef.current) {
+      pdfInputRef.current.value = '';
+    }
+    if (excelInputRef.current) {
+      excelInputRef.current.value = '';
+    }
+  };
+
+  // Limpiar inputs cuando cambie el resetTrigger desde el componente padre
+  useEffect(() => {
+    if (resetTrigger !== undefined) {
+      resetInputs();
+    }
+  }, [resetTrigger]);
 
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -44,13 +67,18 @@ export const DualDropzone: React.FC<DualDropzoneProps> = ({ onBatchStarted }) =>
       return;
     }
 
+    const currentPdf = pdfFile;
+    const currentExcel = excelFile;
+
+    // Limpieza INMEDIATA de los inputs y estado
+    resetInputs();
     setIsUploading(true);
     setErrorMessage(null);
 
     try {
       const formData = new FormData();
-      formData.append('pdf', pdfFile);
-      formData.append('excel', excelFile);
+      formData.append('pdf', currentPdf);
+      formData.append('excel', currentExcel);
 
       const response = await api.post('/batches/upload', formData);
 
@@ -85,6 +113,7 @@ export const DualDropzone: React.FC<DualDropzoneProps> = ({ onBatchStarted }) =>
           {/* Zona PDF */}
           <div className="relative group">
             <input
+              ref={pdfInputRef}
               type="file"
               id="pdfUpload"
               accept=".pdf"
@@ -126,6 +155,7 @@ export const DualDropzone: React.FC<DualDropzoneProps> = ({ onBatchStarted }) =>
           {/* Zona Excel */}
           <div className="relative group">
             <input
+              ref={excelInputRef}
               type="file"
               id="excelUpload"
               accept=".xlsx, .xls"

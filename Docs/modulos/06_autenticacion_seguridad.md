@@ -48,6 +48,7 @@ Toda contraseña debe cumplir obligatoriamente con las siguientes reglas validad
 - **Timeout por Inactividad**: Si no se registra interacción del usuario durante **30 minutos**, la sesión caduca automáticamente en el cliente y el token se invalida.
 - **Revocación por Reinicio de Servidor**: Los tokens incluyen una huella temporal vinculada a la sesión activa; si el servidor se reinicia o se cambia la contraseña, todas las sesiones previas quedan invalidadas de inmediato (`401 Unauthorized`).
 
-### D. Flujo de Primer Acceso (`requiresPasswordChange`)
-- Cuando un nuevo instructor es aprobado por el administrador, el sistema le asigna una **contraseña temporal aleatoria** y marca la bandera `requiresPasswordChange = true`.
-- Al iniciar sesión por primera vez, el sistema intercepta la navegación y exige de forma obligatoria el cambio de contraseña por una definitiva antes de permitir el acceso al Dashboard.
+### D. Flujo de Solicitud de Registro y Primer Acceso (`requiresPasswordChange`)
+- **Solicitud Simplificada**: El solicitante únicamente proporciona su dirección de correo electrónico (sin contraseña previa). El sistema valida formato y unicidad (no existan usuarios ni solicitudes pendientes para ese correo).
+- **Aprobación de Administrador**: Cuando el administrador aprueba la solicitud, el sistema genera automáticamente una **contraseña temporal criptográfica**, la despacha al correo del solicitante y marca `requiresPasswordChange = true`.
+- **Cambio Obligatorio en Primer Login**: Al iniciar sesión por primera vez con dicha clave temporal, el sistema intercepta la navegación y exige obligatoriamente el cambio de contraseña por una definitiva antes de permitir el acceso a las funciones del Dashboard.

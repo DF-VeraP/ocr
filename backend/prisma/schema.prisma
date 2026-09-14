@@ -62,7 +62,7 @@ model User {
 model RegistrationRequest {
   id           String        @id @default(uuid())
   email        String        @unique
-  passwordHash String
+  passwordHash String?
   status       RequestStatus @default(PENDING)
   createdAt    DateTime      @default(now())
   reviewedAt   DateTime?

@@ -22,17 +22,16 @@ export class AuthController {
   async registerRequest(req: Request, res: Response): Promise<void> {
     try {
       const email = (req.body?.email || '').trim().toLowerCase();
-      const password = req.body?.password || '';
 
-      if (!email || !password) {
-        res.status(400).json({ error: 'El correo electrónico y la contraseña son obligatorios' });
+      if (!email) {
+        res.status(400).json({ error: 'El correo electrónico es obligatorio' });
         return;
       }
 
-      // RF-003: Validación de política de contraseñas
-      const policy = validatePasswordPolicy(password);
-      if (!policy.isValid) {
-        res.status(400).json({ error: policy.message });
+      // Validación de formato básico de correo electrónico
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        res.status(400).json({ error: 'El formato del correo electrónico es inválido' });
         return;
       }
 
@@ -49,15 +48,12 @@ export class AuthController {
         return;
       }
 
-      // RF-004: Hash bcrypt
-      const passwordHash = await hashPassword(password);
-
-      // RF-005: Guardar solicitud en estado PENDING
+      // Guardar o actualizar solicitud en estado PENDING sin contraseña
       if (existingRequest) {
         await prisma.registrationRequest.update({
           where: { email },
           data: {
-            passwordHash,
+            passwordHash: null,
             status: 'PENDING',
             createdAt: new Date(),
           },
@@ -66,7 +62,7 @@ export class AuthController {
         await prisma.registrationRequest.create({
           data: {
             email,
-            passwordHash,
+            passwordHash: null,
             status: 'PENDING',
           },
         });

@@ -7,9 +7,10 @@ interface BatchProgressProps {
   batchId: string;
   onCompleted: (durationSeconds?: number) => void;
   onCancelled?: () => void;
+  onError?: (errorMsg: string) => void;
 }
 
-export const BatchProgress: React.FC<BatchProgressProps> = ({ batchId, onCompleted, onCancelled }) => {
+export const BatchProgress: React.FC<BatchProgressProps> = ({ batchId, onCompleted, onCancelled, onError }) => {
   const [percentage, setPercentage] = useState<number>(0);
   const [status, setStatus] = useState<string>('PROCESSING');
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -76,10 +77,12 @@ export const BatchProgress: React.FC<BatchProgressProps> = ({ batchId, onComplet
             onCompletedRef.current(elapsedSecondsRef.current);
           } else if (b.status === 'FAILED') {
             setIsPaused(false);
-            setErrorMessage(b.errorMessage || 'Error en el lote');
+            const errMsg = b.errorMessage || 'Error en el lote';
+            setErrorMessage(errMsg);
             eventSource?.close();
             if (pollInterval) clearInterval(pollInterval);
             if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+            onError?.(errMsg);
           } else {
             const estPct = res.data?.percentage !== undefined
               ? res.data.percentage
@@ -130,10 +133,12 @@ export const BatchProgress: React.FC<BatchProgressProps> = ({ batchId, onComplet
             onCompletedRef.current(elapsedSecondsRef.current);
           } else if (data.status === 'FAILED') {
             setIsPaused(false);
-            setErrorMessage(data.error || 'El procesamiento del lote ha fallado');
+            const errMsg = data.error || 'El procesamiento del lote ha fallado';
+            setErrorMessage(errMsg);
             eventSource?.close();
             if (pollInterval) clearInterval(pollInterval);
             if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+            onError?.(errMsg);
           }
         } catch (err) {
           console.error('Error parseando SSE data:', err);

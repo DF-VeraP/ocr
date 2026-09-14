@@ -26,8 +26,8 @@ sequenceDiagram
     actor Admin as Administrador SENA
     participant Mail as Servicio de Correo (SMTP)
 
-    Instructor->>Front: Completa formulario (Nombre, Correo @sena, Centro, Regional)
-    Front->>API: POST /api/auth/register (Crea registro en PENDING)
+    Instructor->>Front: Completa formulario únicamente con su Correo Electrónico
+    Front->>API: POST /api/auth/register (Crea registro en PENDING sin contraseña)
     API->>Mail: Notifica al Administrador (Nueva Solicitud)
     Mail-->>Admin: Correo: "Nueva solicitud de acceso pendiente"
     

@@ -5,6 +5,7 @@ import { useThemeStore } from './stores/themeStore';
 import { useInactivityTimeout } from './hooks/useInactivityTimeout';
 import { SessionTimeoutModal } from './components/auth/SessionTimeoutModal';
 import { Navbar } from './components/layout/Navbar';
+import { MobileBottomNav } from './components/layout/MobileBottomNav';
 import { Login } from './pages/Login';
 import { RegisterRequest } from './pages/RegisterRequest';
 import { ForgotPassword } from './pages/ForgotPassword';
@@ -155,12 +156,14 @@ const AppContent: React.FC = () => {
       </main>
 
       {!isLoginPage && (
-        <footer className="py-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
+        <footer className="py-6 mb-16 md:mb-0 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
           <div className="max-w-7xl mx-auto px-4">
             Servicio Nacional de Aprendizaje SENA • Sistema de Extracción y Validación OCR de Cédulas
           </div>
         </footer>
       )}
+
+      {!isLoginPage && <MobileBottomNav />}
     </div>
   );
 };

@@ -47,6 +47,7 @@ frontend/src/
 - **Filtros Rápidos y Búsqueda**: Permite filtrar aprendices por estado: *Todos*, *Validados*, *Discrepancias* o *No Encontrados*.
 - **Visor Comparativo**: Al hacer clic en cualquier aprendiz con discrepancia, se despliega una vista lado a lado comparando los datos de la planilla con el texto extraído del documento escaneado.
 
-### C. Sistema de Tema Visual (Dark / Light Mode)
-- Integrado con la paleta de colores corporativa del SENA (`sena-500` a `sena-700`).
-- Persistencia automática de la preferencia del usuario en `localStorage` y sincronización con las preferencias del sistema operativo.
+### D. Transformación y Adaptabilidad Completa a Dispositivos Móviles (Mobile First)
+- **Transformación de Vistas Tabulares a Tarjetas Táctiles**: En pantallas móviles (`< 768px`), las tablas anchas de reportes, solicitudes y usuarios no se comprimen ni generan desbordamientos confusos; se transforman completamente en **tarjetas táctiles interactivas** (`Card View`) con badges contextuales, datos clave jerarquizados y botones de acción rápida de fácil pulsación con el pulgar.
+- **Barra de Navegación Móvil Inferior (`MobileBottomNav`)**: En dispositivos móviles se oculta el menú superior convencional y se despliega una barra fija inferior tipo App nativa (`Panel`, `Fichas`, `Admin`) con efecto glassmorphism (`backdrop-blur-md`) y soporte para áreas seguras (`safe-bottom`).
+- **Modales Adaptables (Bottom Sheet Style)**: Las ventanas emergentes (edición manual de documentos, cambio de clave, confirmaciones) se ajustan automáticamente a la base de la pantalla táctil como hojas deslizables (`rounded-t-3xl`) con límites de altura (`max-h-[90vh]`) y scroll suave para evitar bloqueos del teclado virtual en smartphones.

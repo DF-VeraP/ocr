@@ -500,16 +500,7 @@ class QueueService extends EventEmitter {
         console.error(`❌ [ERROR EN LOTE] ${batchId}:`, error);
       }
 
-      await prisma.processingBatch.update({
-        where: { id: batchId },
-        data: {
-          status: 'FAILED',
-          errorMessage: isCancelled ? 'Procesamiento cancelado por el usuario' : (error.message || 'Error desconocido durante el procesamiento'),
-        },
-      }).catch((err) => {
-        console.warn(`[Lote ${batchId}] No se pudo marcar como FAILED (posiblemente eliminado):`, err.message);
-      });
-
+      // Notificar a los clientes vía SSE sobre el fallo/cancelación
       this.emitProgress({
         batchId,
         status: 'FAILED',
@@ -517,8 +508,18 @@ class QueueService extends EventEmitter {
         totalPages: 0,
         processedPages: 0,
         percentage: 0,
-        error: isCancelled ? 'Procesamiento cancelado por el usuario' : error.message,
+        error: isCancelled ? 'Procesamiento cancelado por el usuario' : (error.message || 'Error desconocido durante el procesamiento'),
       });
+
+      // No almacenar en base de datos lotes o datos que den error / cancelación
+      try {
+        await prisma.processingBatch.delete({
+          where: { id: batchId },
+        });
+        console.log(`🗑️ [LIMPIEZA BD] Lote fallido/cancelado ${batchId} y sus datos asociados eliminados de la base de datos.`);
+      } catch (dbErr: any) {
+        console.warn(`[Lote ${batchId}] No se pudo eliminar de la base de datos (posiblemente ya no existía):`, dbErr.message);
+      }
     } finally {
       this.batchSignals.delete(batchId);
       this.lastProgress.delete(batchId);

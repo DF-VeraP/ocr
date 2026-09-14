@@ -187,6 +187,9 @@ export const Dashboard: React.FC = () => {
   // Estado para registrar el tiempo total de procesamiento del lote
   const [lastProcessingTime, setLastProcessingTime] = useState<number | null>(null);
 
+  // Trigger numérico para forzar el reseteo de inputs en DualDropzone
+  const [resetTrigger, setResetTrigger] = useState<number>(0);
+
   const handleBatchStarted = (batchId: string) => {
     localStorage.setItem('sena_current_batch_id', batchId);
     setCurrentBatchId(batchId);
@@ -196,6 +199,7 @@ export const Dashboard: React.FC = () => {
 
   const handleBatchCompleted = (durationSeconds?: number) => {
     setIsProcessing(false);
+    setResetTrigger((prev) => prev + 1);
     if (durationSeconds !== undefined) {
       setLastProcessingTime(durationSeconds);
     }
@@ -207,10 +211,24 @@ export const Dashboard: React.FC = () => {
 
   const handleBatchCancelled = () => {
     setIsProcessing(false);
-    if (currentBatchId) {
-      fetchBatchInfo(currentBatchId);
-      fetchBatchData(currentBatchId);
-    }
+    setResetTrigger((prev) => prev + 1);
+    // Como el backend elimina el lote cancelado de la BD, removemos la referencia local
+    localStorage.removeItem('sena_current_batch_id');
+    setCurrentBatchId(null);
+    setBatchInfo(null);
+    setDocuments([]);
+    setReport([]);
+  };
+
+  const handleBatchError = (_errMsg: string) => {
+    setIsProcessing(false);
+    setResetTrigger((prev) => prev + 1);
+    // Al fallar, el backend elimina el lote con error de la BD
+    localStorage.removeItem('sena_current_batch_id');
+    setCurrentBatchId(null);
+    setBatchInfo(null);
+    setDocuments([]);
+    setReport([]);
   };
 
   const handleDeleteAllData = async () => {
@@ -317,7 +335,7 @@ export const Dashboard: React.FC = () => {
       )}
 
       {/* Zona de Carga de Archivos */}
-      <DualDropzone onBatchStarted={handleBatchStarted} />
+      <DualDropzone onBatchStarted={handleBatchStarted} resetTrigger={resetTrigger} />
 
       {/* Opción para limpiar datos previos si se desea reiniciar */}
       {!isProcessing && (
@@ -338,6 +356,7 @@ export const Dashboard: React.FC = () => {
           batchId={currentBatchId}
           onCompleted={handleBatchCompleted}
           onCancelled={handleBatchCancelled}
+          onError={handleBatchError}
         />
       )}
 

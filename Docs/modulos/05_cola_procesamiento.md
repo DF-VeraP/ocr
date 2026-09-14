@@ -37,10 +37,13 @@ stateDiagram-v2
     }
 
     PROCESANDO --> COMPLETADO: Éxito total
-    PROCESANDO --> FALLIDO: Error irrecuperable
-    FALLIDO --> [*]
+    PROCESANDO --> FALLIDO_O_CANCELADO: Error irrecuperable o Cancelación
+    FALLIDO_O_CANCELADO --> LIMPIEZA_BD: Notifica cliente SSE y borra lote en cascada (No persiste en BD)
+    LIMPIEZA_BD --> [*]
     COMPLETADO --> [*]
 ```
+
+> **Política de Integridad en Base de Datos**: Si un lote falla o es cancelado por el usuario, el sistema notifica el evento vía Server-Sent Events (SSE) y procede inmediatamente a eliminar el lote y sus registros parciales de PostgreSQL mediante eliminación en cascada (`prisma.processingBatch.delete`), evitando la persistencia de datos inconsistentes o huérfanos.
 
 ---
 
