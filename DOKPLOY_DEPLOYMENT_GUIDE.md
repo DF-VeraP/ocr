@@ -60,7 +60,8 @@ graph TD
 ```env
 # URL de tu dominio público
 CLIENT_URL=https://ocr.tudominio.com
-PORT=80
+# Puerto del Host VPS (5050 libre, para no colisionar con el Nginx del servidor en el 80)
+PORT=5050
 
 # Base de Datos PostgreSQL
 POSTGRES_USER=sena_admin
@@ -86,19 +87,55 @@ SMTP_PASS=tu_app_password_de_16_caracteres
 
 ---
 
-### Paso 4: Configurar el Dominio y Certificado SSL
-1. Ve a la pestaña **Domains** en Dokploy.
+### Paso 4: Enrutar tu Dominio y Certificado SSL
+
+Tienes dos formas de enrutar tu dominio hacia el contenedor:
+
+#### Opción A: A través de Dokploy (Si Traefik gestiona tus dominios)
+1. Ve a la pestaña **Domains** en tu servicio en Dokploy.
 2. Haz clic en **Add Domain**:
-   - **Host:** `ocr.tudominio.com` (tu subdominio o dominio)
+   - **Host:** `ocr.tudominio.com`
    - **Service:** Selecciona el contenedor `frontend`
-   - **Port:** `80`
-   - **Certificate:** Marca **Let's Encrypt** (para HTTPS automático gratuito)
+   - **Port:** `80` (dentro de la red Docker interna)
+   - **Certificate:** Marca **Let's Encrypt**
 3. Haz clic en **Save**.
+
+#### Opción B: A través del Nginx existente en tu VPS (Recomendada si Nginx ya ocupa el puerto 80/443)
+Como en tu servidor VPS ya hay un Nginx escuchando en los puertos `80` y `443`, puedes configurar un bloque virtual para tu dominio apuntando al puerto `5050`:
+
+1. Crear archivo de configuración en tu VPS:
+   ```bash
+   sudo nano /etc/nginx/sites-available/ocr.tudominio.com
+   ```
+2. Pegar la siguiente configuración:
+   ```nginx
+   server {
+       server_name ocr.tudominio.com;
+
+       location / {
+           proxy_pass http://127.0.0.1:5050;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+           client_max_body_size 100M;
+       }
+   }
+   ```
+3. Habilitar el sitio y emitir SSL con Certbot:
+   ```bash
+   sudo ln -s /etc/nginx/sites-available/ocr.tudominio.com /etc/nginx/sites-enabled/
+   sudo nginx -t && sudo systemctl reload nginx
+   sudo certbot --nginx -d ocr.tudominio.com
+   ```
 
 ---
 
 ### Paso 5: Desplegar la Aplicación
-1. En la esquina superior derecha, haz clic en el botón **Deploy**.
+1. En la esquina superior derecha de Dokploy, haz clic en el botón **Deploy**.
 2. Dokploy ejecutará:
    - Descarga del código fuente desde Git.
    - Construcción de las imágenes Docker (Frontend con Vite/Nginx y Backend con PaddleOCR/ONNX).

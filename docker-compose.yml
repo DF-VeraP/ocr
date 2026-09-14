@@ -7,7 +7,7 @@ services:
     container_name: sena-ocr-frontend
     restart: unless-stopped
     ports:
-      - "${PORT:-80}:80"
+      - "${PORT:-5050}:80"
     depends_on:
       - backend
     networks:
