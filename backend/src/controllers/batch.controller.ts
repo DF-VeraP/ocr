@@ -208,8 +208,10 @@ export class BatchController {
         return;
       }
 
+      const whereClause = req.user?.role === 'ADMIN' ? {} : { userId };
+
       const batch = await prisma.processingBatch.findFirst({
-        where: { userId },
+        where: whereClause,
         orderBy: { createdAt: 'desc' },
         select: {
           id: true,
@@ -225,7 +227,7 @@ export class BatchController {
       });
 
       if (!batch) {
-        res.status(404).json({ message: 'No hay lotes previos' });
+        res.json({ batch: null });
         return;
       }
 
