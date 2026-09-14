@@ -194,9 +194,9 @@ export class AuthController {
           requiresPasswordChange: user.requiresPasswordChange,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error en login:', error);
-      res.status(500).json({ error: 'Error interno del servidor al iniciar sesión' });
+      res.status(500).json({ error: error?.message || 'Error interno del servidor al iniciar sesión' });
     }
   }
 

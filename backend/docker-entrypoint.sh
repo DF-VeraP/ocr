@@ -26,9 +26,9 @@ async function waitDb(retries = 30) {
 waitDb();
 '
 
-# Aplicar migraciones de base de datos
-echo "📦 [ENTRYPOINT] Aplicando migraciones de Prisma..."
-npx prisma migrate deploy || npx prisma db push
+# Sincronizar esquema de base de datos con Prisma
+echo "📦 [ENTRYPOINT] Sincronizando tablas en PostgreSQL con Prisma..."
+npx prisma db push --accept-data-loss --skip-generate
 
 # Ejecutar seed para crear el administrador predeterminado si no existe
 echo "🌱 [ENTRYPOINT] Verificando seed de usuario administrador..."
