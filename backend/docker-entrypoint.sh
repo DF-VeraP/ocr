@@ -32,7 +32,7 @@ npx prisma migrate deploy || npx prisma db push
 
 # Ejecutar seed para crear el administrador predeterminado si no existe
 echo "🌱 [ENTRYPOINT] Verificando seed de usuario administrador..."
-npx ts-node prisma/seed.ts || echo "⚠️ Advertencia: Error en seed o ya creado previamente."
+node dist/prisma/seed.js || echo "⚠️ Advertencia: Error en seed o ya creado previamente."
 
 echo "🎯 [ENTRYPOINT] Iniciando servidor de producción..."
 exec "$@"

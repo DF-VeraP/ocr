@@ -22,7 +22,7 @@ app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
 // Servir archivos estáticos de rostros locales
-const uploadsDir = path.resolve(__dirname, '../uploads');
+const uploadsDir = path.resolve(process.cwd(), 'uploads');
 app.use('/uploads', express.static(uploadsDir));
 
 import { getServerInstanceId, getServerStartTime } from './config/serverInstance';
